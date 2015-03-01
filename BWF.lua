@@ -24,13 +24,21 @@ function BWF:OnInitialize()
 			character = true,
 			btag = true,
 			queuesafe = true,
+			guildFriend = true,
 			BWFad = true
 		}
 	}
 
 	self.db = LibStub("AceDB-3.0"):New("BWFdb", defaults, true)
 	db = self.db.global
-	
+
+	-- Update db with new fields if they've not been set yet
+	for k, v in pairs(db) do
+	    if db[k] == nil then
+		db[k] = v
+	    end
+	end
+
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("Benefits with Friends", self.BWFOptions)
 	self.optionsFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Benefits with Friends", "BenefitsWithFriends")
 	
@@ -97,6 +105,12 @@ BWF.BWFOptions = {
 			desc = "Automatically change the loot method when inviting RealID friends.",
 			type = "toggle",
 			arg = "realID"
+		},
+		guildFriend = {
+			name = "Guild Friends",
+			desc = "Automatically change the loot method when inviting guild members.",
+			type = "toggle",
+			arg = "guildFriend"
 		},
 		character = {
 			name = "Character",
@@ -399,6 +413,13 @@ function BWF:IsAFriend(name)
 		end	
  	end
 
+	if db.guildFriend then
+	    local numGuildMembers, numOnline, numOnlineAndMobile = GetNumGuildMembers()
+	    for i = 1, numGuildMembers do
+		local fullName, rank, rankIndex, level, class, zone, note, officernote, online, status, classFileName, achievementPoints, achievementRank, isMobile, canSoR, reputation = GetGuildRosterInfo(i)
+		table.insert(friendslist, BWF:SplitNameAndServer(fullName)[1])
+	    end
+	end
 	
  	if db.character then
 	 	for j = 1, onlinefriends do
@@ -462,12 +483,3 @@ function BWF:FriendInvite(name)
 		end
 	end
 end
-
-
-
-
-
-
-
-
-
