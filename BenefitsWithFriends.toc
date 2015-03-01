@@ -1,0 +1,9 @@
+## Interface: 60000
+## Title: Benefits with Friends
+## Notes: Makes interacting with trusted friends easier!
+## Author: Anorian
+## Version: 0.1
+## SavedVariables: BWFdb
+
+Embeds.xml
+BWF.lua
