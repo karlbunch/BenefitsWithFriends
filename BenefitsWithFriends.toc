@@ -1,4 +1,4 @@
-## Interface: 60100
+## Interface: 60200
 ## Title: Benefits with Friends
 ## Notes: Makes interacting with trusted friends easier!
 ## Author: Anorian
